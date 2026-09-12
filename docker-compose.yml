@@ -1,0 +1,51 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: appuser
+      POSTGRES_PASSWORD: apppassword
+      POSTGRES_DB: appdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+    networks:
+      - cluster_net
+
+  app1:
+    build:
+      context: ./tomcat
+      dockerfile: Dockerfile
+      args:
+        APP_DIR: app1
+    container_name: tomcat_app1
+    restart: always
+    hostname: app1
+    depends_on:
+      - postgres
+    ports:
+      - "8081:8080"
+    networks:
+      - cluster_net
+
+  app2:
+    build:
+      context: ./tomcat
+      dockerfile: Dockerfile
+      args:
+        APP_DIR: app2
+    container_name: tomcat_app2
+    restart: always
+    hostname: app2
+    depends_on:
+      - postgres
+    ports:
+      - "8082:8080"
+    networks:
+      - cluster_net
+
+networks:
+  cluster_net:
+    driver: bridge
