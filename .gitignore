@@ -20,3 +20,4 @@ prometheus/data/
 # OS/editor junk files
 .DS_Store
 *.swp
+cookies.txt

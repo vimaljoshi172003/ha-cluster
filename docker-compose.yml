@@ -25,8 +25,6 @@ services:
     hostname: app1
     depends_on:
       - postgres
-    ports:
-      - "8081:8080"
     networks:
       - cluster_net
 
@@ -41,8 +39,20 @@ services:
     hostname: app2
     depends_on:
       - postgres
+    networks:
+      - cluster_net
+
+  haproxy:
+    image: haproxy:2.9
+    container_name: haproxy_lb
+    restart: always
+    depends_on:
+      - app1
+      - app2
     ports:
-      - "8082:8080"
+      - "80:80"
+    volumes:
+      - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
     networks:
       - cluster_net
 
