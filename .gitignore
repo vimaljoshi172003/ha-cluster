@@ -1,0 +1,22 @@
+# Postgres data (actual DB data, should not be in git)
+postgres/data/
+
+# SSL certificates and private keys (sensitive, never push)
+*.pem
+*.key
+*.crt
+haproxy/certs/
+
+# Environment/secret files
+.env
+*.env
+
+# Grafana persistent data
+grafana/data/
+
+# Prometheus persistent data
+prometheus/data/
+
+# OS/editor junk files
+.DS_Store
+*.swp
